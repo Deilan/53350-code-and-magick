@@ -37,6 +37,112 @@
     'yellow',
     'green'
   ];
+  var FIREBALL_COLORS = [
+    '#ee4830',
+    '#30a8ee',
+    '#5ce6c0',
+    '#e848d5',
+    '#e6e848',
+  ];
+
+  var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
+
+  var setupEl = document.querySelector('.setup');
+  var setupOpenEl = document.querySelector('.setup-open');
+  var setupCloseEl = setupEl.querySelector('.setup-close');
+  setupOpenEl.addEventListener('click', onSetupOpenClick);
+  setupOpenEl.addEventListener('keydown', onSetupOpenKeydown);
+
+  var setupUserNameEl = setupEl.querySelector('.setup-user-name');
+  var setupUserNameInput = setupEl.querySelector('.setup-user-name');
+
+  var setupPlayerEl = setupEl.querySelector('.setup-player');
+  var setupWizardCoatEl = setupPlayerEl.querySelector('.wizard-coat');
+  var setupWizardEyesEl = setupPlayerEl.querySelector('.wizard-eyes');
+  var setupFireballEl = setupPlayerEl.querySelector('.setup-fireball-wrap');
+  setupWizardCoatEl.addEventListener('click', onSetupWizardCoatClick);
+  setupWizardEyesEl.addEventListener('click', onSetupWizardEyesClick);
+  setupFireballEl.addEventListener('click', onSetupFireballClick);
+
+  function onSetupWizardCoatClick(evt) {
+    setRandomStyleProp(evt.target, 'fill', COAT_COLORS);
+  }
+
+  function onSetupWizardEyesClick(evt) {
+    setRandomStyleProp(evt.target, 'fill', EYES_COLORS);
+  }
+
+  function onSetupFireballClick(evt) {
+    setRandomStyleProp(evt.target, 'backgroundColor', FIREBALL_COLORS);
+  }
+
+  function setRandomStyleProp(target, prop, values) {
+    var value = target.style[prop];
+    while (value === target.style[prop]) {
+      value = getRandomElement(values);
+    }
+    target.style[prop] = value;
+  }
+
+  setupUserNameInput.addEventListener('invalid', function (evt) {
+    if (evt.target.validity.tooShort) {
+      evt.target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+    } else if (evt.target.validity.tooLong) {
+      evt.target.setCustomValidity('Имя не должно превышать 25-ти символов');
+    } else if (evt.target.validity.valueMissing) {
+      evt.target.setCustomValidity('Имя обязательно для заполнения');
+    }
+  });
+
+
+  function openSetup() {
+    setupEl.classList.remove('hidden');
+    setupOpenEl.removeEventListener('click', onSetupOpenClick);
+    setupOpenEl.removeEventListener('keydown', onSetupOpenKeydown);
+    setupCloseEl.addEventListener('click', onSetupCloseClick);
+    setupCloseEl.addEventListener('keydown', onSetupCloseKeydown);
+    document.addEventListener('keydown', onEscKeydown);
+  }
+
+  function closeSetup() {
+    setupEl.classList.add('hidden');
+    setupCloseEl.removeEventListener('click', onSetupCloseClick);
+    setupCloseEl.removeEventListener('keydown', onSetupCloseKeydown);
+    document.removeEventListener('keydown', onEscKeydown);
+    setupOpenEl.addEventListener('click', onSetupOpenClick);
+    setupOpenEl.addEventListener('keydown', onSetupOpenKeydown);
+  }
+
+  function onSetupOpenClick() {
+    openSetup();
+  }
+
+  function onSetupOpenKeydown(evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      openSetup();
+    }
+  }
+
+  function onSetupCloseClick() {
+    closeSetup();
+  }
+
+  function onEscKeydown(evt) {
+    // Если фокус находится на форме ввода имени, то окно закрываться не должно
+    if (evt.target === setupUserNameEl) {
+      return;
+    }
+    if (evt.keyCode === ESC_KEYCODE) {
+      closeSetup();
+    }
+  }
+
+  function onSetupCloseKeydown(evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      closeSetup();
+    }
+  }
 
   renderSetup(getWizards(WIZARDS_COUNT, {
     firstNames: FIRST_NAMES,
@@ -48,7 +154,6 @@
   function renderSetup(wizards) {
     var fragment = prepareSimilarWizardsFragment(wizards);
     populateSimilarWizardsList(fragment);
-    showSetupDialog();
     showSimilarWizardsList();
   }
 
@@ -72,11 +177,6 @@
   function populateSimilarWizardsList(wizardsEl) {
     var similarListEl = document.querySelector('.setup-similar-list');
     similarListEl.appendChild(wizardsEl);
-  }
-
-  function showSetupDialog() {
-    var setupEl = document.querySelector('.setup');
-    setupEl.classList.remove('hidden');
   }
 
   function showSimilarWizardsList() {
