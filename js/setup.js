@@ -145,11 +145,10 @@
   }
 
   function setRandomStyleProp(target, prop, values) {
-    var value = target.style[prop];
-    while (value === target.style[prop]) {
-      value = getRandomElement(values);
-    }
-    target.style[prop] = value;
+    values = values.filter(function (val) {
+      return val !== target.style[prop];
+    });
+    target.style[prop] = pullRandomElement(values) || target.style[prop];
   }
 
   setupUserNameInput.addEventListener('invalid', function (evt) {
@@ -232,5 +231,16 @@
   function getRandomElement(arr) {
     var index = Math.floor(Math.random() * (arr.length - 1));
     return arr[index];
+  }
+
+  function pullRandomElement(arr) {
+    var index = getRandomIntBetween(0, arr.length - 1);
+    return arr.splice(index, 1)[0];
+  }
+
+  function getRandomIntBetween(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 })();
