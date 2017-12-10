@@ -8,14 +8,14 @@
   };
 
   function onSetupWizardCoatClick(evt) {
-    window.setRandomStyleProp(evt.target, 'fill', window.wizardsOptions.coatColors);
+    window.randomUtils.setRandomStyleProp(evt.target, 'fill', window.wizardsOptions.coatColors);
   }
 
   function onSetupWizardEyesClick(evt) {
-    window.setRandomStyleProp(evt.target, 'fill', window.wizardsOptions.eyesColors);
+    window.randomUtils.setRandomStyleProp(evt.target, 'fill', window.wizardsOptions.eyesColors);
   }
 
   function onSetupFireballClick(evt) {
-    window.setRandomStyleProp(evt.target, 'backgroundColor', window.wizardsOptions.fireballColors);
+    window.randomUtils.setRandomStyleProp(evt.target, 'backgroundColor', window.wizardsOptions.fireballColors);
   }
 })();

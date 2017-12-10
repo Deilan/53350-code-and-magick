@@ -15,9 +15,9 @@
 
   function generateWizard(options) {
     var wizard = {
-      name: window.getRandomElement(options.firstNames) + ' ' + window.getRandomElement(options.lastNames),
-      coatColor: window.getRandomElement(options.coatColors),
-      eyesColor: window.getRandomElement(options.eyesColors),
+      name: window.randomUtils.getRandomElement(options.firstNames) + ' ' + window.randomUtils.getRandomElement(options.lastNames),
+      coatColor: window.randomUtils.getRandomElement(options.coatColors),
+      eyesColor: window.randomUtils.getRandomElement(options.eyesColors),
     };
     return wizard;
   }
