@@ -17,6 +17,9 @@
 
   var setupUserNameEl = setupEl.querySelector('.setup-user-name');
 
+  var setupUserPicEl = setupEl.querySelector('.setup-user-pic');
+  var uploadEl = setupEl.querySelector('.upload');
+
   window.initSetupHandlers({
     root: document,
     setup: setupEl,
@@ -41,4 +44,12 @@
     setupSimilar: setupSimilarEl,
     setupSimilarList: setupSimilarListEl,
   }, wizards);
+
+  // temp workaround: file input intercepts clicks so drag&drop become unavailable
+  uploadEl.removeChild(uploadEl.querySelector('input[type=file]'));
+  window.initDragDrop({
+    setup: setupEl,
+    setupUserPic: setupUserPicEl,
+    upload: uploadEl
+  });
 })();

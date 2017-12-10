@@ -10,6 +10,9 @@
 
     function openSetup() {
       els.setup.classList.remove('hidden');
+      // reset coordinates of setup window on every opening
+      els.setup.style.top = null;
+      els.setup.style.left = null;
       els.setupOpen.removeEventListener('click', onSetupOpenClick);
       els.setupOpen.removeEventListener('keydown', onSetupOpenKeydown);
       els.setupClose.addEventListener('click', onSetupCloseClick);
