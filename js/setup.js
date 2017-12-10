@@ -20,6 +20,9 @@
   var setupUserPicEl = setupEl.querySelector('.setup-user-pic');
   var uploadEl = setupEl.querySelector('.upload');
 
+  var setupArtifactsShopEl = setupEl.querySelector('.setup-artifacts-shop');
+  var setupArtifactsEl = setupEl.querySelector('.setup-artifacts');
+
   window.initSetupHandlers({
     root: document,
     setup: setupEl,
@@ -51,5 +54,10 @@
     setup: setupEl,
     setupUserPic: setupUserPicEl,
     upload: uploadEl
+  });
+
+  window.initSetupArtifactsDraggable({
+    setupArtifactsShop: setupArtifactsShopEl,
+    setupArtifacts: setupArtifactsEl
   });
 })();

@@ -45,7 +45,7 @@
 
     function onEscKeydown(evt) {
       // Если фокус находится на форме ввода имени, то окно закрываться не должно
-      if (evt.target === els.setupUserNameInput) {
+      if (evt.target === els.setupUserName) {
         return;
       }
       if (evt.keyCode === ESC_KEYCODE) {
