@@ -47,7 +47,7 @@
 
   // temp workaround: file input intercepts clicks so drag&drop become unavailable
   uploadEl.removeChild(uploadEl.querySelector('input[type=file]'));
-  window.initDragDrop({
+  window.initSetupDialogDraggable({
     setup: setupEl,
     setupUserPic: setupUserPicEl,
     upload: uploadEl

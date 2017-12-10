@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  window.initDragDrop = function (els) {
+  window.initSetupDialogDraggable = function (els) {
     els.upload.addEventListener('mousedown', onMouseDown);
 
     function onMouseDown(evt) {
