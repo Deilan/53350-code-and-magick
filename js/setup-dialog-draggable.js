@@ -58,19 +58,9 @@
     var setupRect = dragContext.els.setup.getBoundingClientRect();
     var setupParentRect = dragContext.els.setup.parentElement.getBoundingClientRect();
     var targetCoords = {
-      x: dragContext.els.setup.offsetLeft - dragContext.shift.x,
-      y: dragContext.els.setup.offsetTop - dragContext.shift.y
+      x: window.utils.getBoundedValue(dragContext.els.setup.offsetLeft - dragContext.shift.x, setupRect.width / 2, setupParentRect.width - setupRect.width / 2),
+      y: window.utils.getBoundedValue(dragContext.els.setup.offsetTop - dragContext.shift.y, setupParentRect.y)
     };
-    // fix coordinates if they're out of bounds
-    if (targetCoords.x < setupRect.width / 2) {
-      targetCoords.x = setupRect.width / 2;
-    } else if (targetCoords.x + setupRect.width / 2 > setupParentRect.width) {
-      targetCoords.x = setupParentRect.width - setupRect.width / 2;
-    }
-
-    if (targetCoords.y < setupParentRect.y) {
-      targetCoords.y = setupParentRect.y;
-    } // allow getting out of bound at the bottom
     return targetCoords;
   }
 })();
