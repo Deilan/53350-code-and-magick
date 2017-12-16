@@ -23,6 +23,8 @@
   var setupArtifactsShopEl = setupEl.querySelector('.setup-artifacts-shop');
   var setupArtifactsEl = setupEl.querySelector('.setup-artifacts');
 
+  window.colorizeUtils.changeColorPickStrategy(window.randomUtils.getRandomElement);
+
   window.initSetupHandlers({
     root: document,
     setup: setupEl,

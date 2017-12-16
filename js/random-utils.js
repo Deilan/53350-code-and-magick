@@ -17,21 +17,21 @@
     return arr.splice(index, 1)[0];
   }
 
-  function setRandomStyleProp(target, prop, values) {
+  function getDifferentRandomElement(values, value) {
     values = values.slice();
     for (var i = 0; i < values.length; i++) {
-      var value = pullRandomElement(values);
-      if (value !== target.style[prop]) {
-        break;
+      var element = pullRandomElement(values);
+      if (element !== value) {
+        return element;
       }
     }
-    target.style[prop] = value;
+    return null;
   }
 
   window.randomUtils = {
     getRandomIntBetween: getRandomIntBetween,
     getRandomElement: getRandomElement,
     pullRandomElement: pullRandomElement,
-    setRandomStyleProp: setRandomStyleProp
+    getDifferentRandomElement: getDifferentRandomElement
   };
 })();
