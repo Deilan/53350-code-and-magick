@@ -3,6 +3,9 @@
 (function () {
   window.renderSetup = function (els, wizards) {
     var wizardsEls = getSimilarWizardsEls(els.wizardTemplate, wizards);
+    while (els.setupSimilarList.hasChildNodes()) {
+      els.setupSimilarList.removeChild(els.setupSimilarList.lastChild);
+    }
     populateSimilarWizards(els.setupSimilarList, wizardsEls);
     els.setupSimilar.classList.remove('hidden');
   };
@@ -27,8 +30,8 @@
 
   function initSimilarWizardElement(wizardEl, wizard) {
     wizardEl.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardEl.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardEl.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    wizardEl.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+    wizardEl.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
     return wizardEl;
   }
 })();

@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var WIZARDS_COUNT = 4;
+
   var templateEl = document.querySelector('#similar-wizard-template').content;
   var wizardTemplateEl = templateEl.querySelector('.setup-similar-item');
 
@@ -23,7 +25,31 @@
   var setupArtifactsShopEl = setupEl.querySelector('.setup-artifacts-shop');
   var setupArtifactsEl = setupEl.querySelector('.setup-artifacts');
 
+  var setupWizardFormEl = setupEl.querySelector('.setup-wizard-form');
+
   window.colorizeUtils.changeColorPickStrategy(window.randomUtils.getRandomElement);
+
+  var onWizardsLoad = function (data) {
+    var wizards = data.slice(0, Math.min(WIZARDS_COUNT, data.length));
+    window.renderSetup({
+      wizardTemplate: wizardTemplateEl,
+      setupSimilar: setupSimilarEl,
+      setupSimilarList: setupSimilarListEl,
+    }, wizards);
+  };
+
+  function onError(errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  }
+  window.backend.load(onWizardsLoad, onError);
 
   window.initSetupHandlers({
     root: document,
@@ -31,7 +57,8 @@
     setupOpen: setupOpenEl,
     setupClose: setupCloseEl,
     setupUserName: setupUserNameEl,
-  });
+    setupWizardForm: setupWizardFormEl
+  }, onError);
 
   window.initSetupCustomization({
     setupWizardCoat: setupWizardCoatEl,
@@ -42,13 +69,6 @@
   window.initSetupValidation({
     setupUserName: setupUserNameEl
   });
-
-  var wizards = window.getWizards();
-  window.renderSetup({
-    wizardTemplate: wizardTemplateEl,
-    setupSimilar: setupSimilarEl,
-    setupSimilarList: setupSimilarListEl,
-  }, wizards);
 
   // temp workaround: file input intercepts clicks so drag&drop become unavailable
   uploadEl.removeChild(uploadEl.querySelector('input[type=file]'));

@@ -1,10 +1,8 @@
 'use strict';
 
 (function () {
-  var WIZARDS_COUNT = 4;
-
   window.getWizards = function (count, options) {
-    count = count || WIZARDS_COUNT;
+    count = count;
     options = options || window.wizardsOptions;
     var result = [];
     for (var i = 0; i < count; i++) {

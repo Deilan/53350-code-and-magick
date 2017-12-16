@@ -4,7 +4,7 @@
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
 
-  window.initSetupHandlers = function (els) {
+  window.initSetupHandlers = function (els, onError) {
     els.setupOpen.addEventListener('click', onSetupOpenClick);
     els.setupOpen.addEventListener('keydown', onSetupOpenKeydown);
 
@@ -18,6 +18,7 @@
       els.setupClose.addEventListener('click', onSetupCloseClick);
       els.setupClose.addEventListener('keydown', onSetupCloseKeydown);
       els.root.addEventListener('keydown', onEscKeydown);
+      els.setupWizardForm.addEventListener('submit', onFormSubmit);
     }
 
     function closeSetup() {
@@ -57,6 +58,12 @@
       if (evt.keyCode === ENTER_KEYCODE) {
         closeSetup();
       }
+    }
+
+    function onFormSubmit(evt) {
+      var form = evt.target.closest('form');
+      evt.preventDefault();
+      window.backend.save(new FormData(form), closeSetup, onError);
     }
   };
 })();
