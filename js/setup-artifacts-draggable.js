@@ -3,12 +3,12 @@
 (function () {
   window.initSetupArtifactsDraggable = function (els) {
     var cells = els.setupArtifacts.querySelectorAll('.setup-artifacts-cell');
-    var dragEls = {
+    var dragContext = {
       cells: cells
     };
-    var onDragStart = onDragStartFactory(dragEls);
-    var onDragEnd = onDragEndFactory(dragEls);
-    var onDrop = onDropFactory(dragEls);
+    var onDragStart = onDragStartFactory(dragContext);
+    var onDragEnd = onDragEndFactory(dragContext);
+    var onDrop = onDropFactory(dragContext);
     els.setupArtifactsShop.addEventListener('dragstart', onDragStart);
     els.setupArtifactsShop.addEventListener('dragend', onDragEnd);
     els.setupArtifacts.addEventListener('dragstart', onDragStart);
@@ -23,22 +23,22 @@
     els.setupArtifacts.addEventListener('dragleave', onDragLeave);
   };
 
-  function onDragStartFactory(els) {
+  function onDragStartFactory(dragContext) {
     return function (evt) {
-      els.draggable = evt.target;
-      for (var i = 0; i < els.cells.length; i++) {
+      dragContext.draggable = evt.target;
+      for (var i = 0; i < dragContext.cells.length; i++) {
         // highlight a cell only if it's empty
-        if (!els.cells[i].hasChildNodes()) {
-          els.cells[i].style.outline = '2px dashed red';
+        if (!dragContext.cells[i].hasChildNodes()) {
+          dragContext.cells[i].style.outline = '2px dashed red';
         }
       }
     };
   }
 
-  function onDragEndFactory(els) {
+  function onDragEndFactory(dragContext) {
     return function () {
-      for (var i = 0; i < els.cells.length; i++) {
-        els.cells[i].style.outline = null;
+      for (var i = 0; i < dragContext.cells.length; i++) {
+        dragContext.cells[i].style.outline = null;
       }
     };
   }
@@ -48,7 +48,7 @@
     return false;
   }
 
-  function onDropFactory(els) {
+  function onDropFactory(dragContext) {
     return function (evt) {
       evt.preventDefault();
       if (!evt.target.classList.contains('setup-artifacts-cell')) {
@@ -56,10 +56,10 @@
       }
       evt.target.style.backgroundColor = null;
       if (!evt.target.hasChildNodes()) {
-        evt.target.appendChild(els.draggable.cloneNode(true));
+        evt.target.appendChild(dragContext.draggable.cloneNode(true));
       }
-      for (var i = 0; i < els.cells.length; i++) {
-        els.cells[i].style.outline = null;
+      for (var i = 0; i < dragContext.cells.length; i++) {
+        dragContext.cells[i].style.outline = null;
       }
     };
   }
