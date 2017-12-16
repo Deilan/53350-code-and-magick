@@ -2,46 +2,46 @@
 
 (function () {
   window.initSetupDialogDraggable = function (els) {
-    var dragEnv = {
+    var dragContext = {
       els: els,
       initialCoords: null,
       shift: null
     };
-    var onMouseDown = onMouseDownFactory(dragEnv);
+    var onMouseDown = onMouseDownFactory(dragContext);
     els.upload.addEventListener('mousedown', onMouseDown);
   };
 
-  function onMouseDownFactory(dragEnv) {
+  function onMouseDownFactory(dragContext) {
     return function (evt) {
       evt.preventDefault();
 
-      dragEnv.initialCoords = {
+      dragContext.initialCoords = {
         x: evt.clientX,
         y: evt.clientY
       };
-      var onMouseMove = onMouseMoveFactory(dragEnv);
+      var onMouseMove = onMouseMoveFactory(dragContext);
       var onMouseUp = onMouseUpFactory(onMouseMove);
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     };
   }
 
-  function onMouseMoveFactory(dragEnv) {
+  function onMouseMoveFactory(dragContext) {
     return function (evt) {
       evt.preventDefault();
 
-      dragEnv.shift = {
-        x: dragEnv.initialCoords.x - evt.clientX,
-        y: dragEnv.initialCoords.y - evt.clientY
+      dragContext.shift = {
+        x: dragContext.initialCoords.x - evt.clientX,
+        y: dragContext.initialCoords.y - evt.clientY
       };
 
-      dragEnv.initialCoords = {
+      dragContext.initialCoords = {
         x: evt.clientX,
         y: evt.clientY
       };
-      var targetCoords = getTargetCoords(dragEnv);
-      dragEnv.els.setup.style.left = targetCoords.x + 'px';
-      dragEnv.els.setup.style.top = targetCoords.y + 'px';
+      var targetCoords = getTargetCoords(dragContext);
+      dragContext.els.setup.style.left = targetCoords.x + 'px';
+      dragContext.els.setup.style.top = targetCoords.y + 'px';
     };
   }
 
@@ -54,12 +54,12 @@
     return onMouseUp;
   }
 
-  function getTargetCoords(dragEnv) {
-    var setupRect = dragEnv.els.setup.getBoundingClientRect();
-    var setupParentRect = dragEnv.els.setup.parentElement.getBoundingClientRect();
+  function getTargetCoords(dragContext) {
+    var setupRect = dragContext.els.setup.getBoundingClientRect();
+    var setupParentRect = dragContext.els.setup.parentElement.getBoundingClientRect();
     var targetCoords = {
-      x: dragEnv.els.setup.offsetLeft - dragEnv.shift.x,
-      y: dragEnv.els.setup.offsetTop - dragEnv.shift.y
+      x: dragContext.els.setup.offsetLeft - dragContext.shift.x,
+      y: dragContext.els.setup.offsetTop - dragContext.shift.y
     };
     // fix coordinates if they're out of bounds
     if (targetCoords.x < setupRect.width / 2) {
