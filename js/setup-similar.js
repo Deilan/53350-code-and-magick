@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  window.renderSetup = function (els, wizards) {
+  window.renderSimilarWizards = function (els, wizards) {
     var wizardsEls = getSimilarWizardsEls(els.wizardTemplate, wizards);
     while (els.setupSimilarList.hasChildNodes()) {
       els.setupSimilarList.removeChild(els.setupSimilarList.lastChild);

@@ -2,12 +2,13 @@
 
 (function () {
   window.utils = {
-    getBoundedValue: getBoundedValue
+    getBoundedValue: getBoundedValue,
+    debounce: debounce
   };
 
   function getBoundedValue(value, min, max) {
     if (min > max) {
-      return null;
+      throw new Error('min ' + min + ' could not be greater than max ' + max);
     }
     if (typeof min !== 'undefined' && min !== null && value < min) {
       value = min;
@@ -15,5 +16,13 @@
       value = max;
     }
     return value;
+  }
+
+  function debounce(func, timeout) {
+    var timeoutId;
+    return function () {
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(func, timeout);
+    };
   }
 })();

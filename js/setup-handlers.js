@@ -11,8 +11,7 @@
     function openSetup() {
       els.setup.classList.remove('hidden');
       // reset coordinates of setup window on every opening
-      els.setup.style.top = null;
-      els.setup.style.left = null;
+      els.setup.style.top = els.setup.style.left = null;
       els.setupOpen.removeEventListener('click', onSetupOpenClick);
       els.setupOpen.removeEventListener('keydown', onSetupOpenKeydown);
       els.setupClose.addEventListener('click', onSetupCloseClick);
@@ -61,8 +60,8 @@
     }
 
     function onFormSubmit(evt) {
-      var form = evt.target.closest('form');
       evt.preventDefault();
+      var form = evt.target.closest('form');
       window.backend.save(new FormData(form), closeSetup, onError);
     }
   };

@@ -1,21 +1,39 @@
 'use strict';
 
 (function () {
-  window.initSetupCustomization = function (els) {
-    els.setupWizardCoat.addEventListener('click', onSetupWizardCoatClick);
-    els.setupWizardEyes.addEventListener('click', onSetupWizardEyesClick);
-    els.setupFireball.addEventListener('click', onSetupFireballClick);
+  window.initSetupCustomization = function (els, callback) {
+    var onCoatClick = onCoatClickFactory(callback);
+    var onEyesClick = onEyesClickFactory(callback);
+    var onFireballClick = onFireballClickFactory(callback);
+    els.setupWizardCoat.addEventListener('click', onCoatClick);
+    els.setupWizardEyes.addEventListener('click', onEyesClick);
+    els.setupFireball.addEventListener('click', onFireballClick);
   };
 
-  function onSetupWizardCoatClick(evt) {
-    window.colorizeUtils.colorizeElement(evt.target, window.wizardsOptions.coatColors, window.styleUtils.setFill);
+  function onCoatClickFactory(callback) {
+    return function (evt) {
+      window.colorizeUtils.colorizeElement(evt.target, window.wizardsOptions.coatColors, window.styleUtils.setFill);
+      if (typeof callback !== 'undefined' && callback !== null) {
+        callback();
+      }
+    };
   }
 
-  function onSetupWizardEyesClick(evt) {
-    window.colorizeUtils.colorizeElement(evt.target, window.wizardsOptions.eyesColors, window.styleUtils.setFill);
+  function onEyesClickFactory(callback) {
+    return function (evt) {
+      window.colorizeUtils.colorizeElement(evt.target, window.wizardsOptions.eyesColors, window.styleUtils.setFill);
+      if (typeof callback !== 'undefined' && callback !== null) {
+        callback();
+      }
+    };
   }
 
-  function onSetupFireballClick(evt) {
-    window.colorizeUtils.colorizeElement(evt.target, window.wizardsOptions.fireballColors, window.styleUtils.setBackgroundColor);
+  function onFireballClickFactory(callback) {
+    return function (evt) {
+      window.colorizeUtils.colorizeElement(evt.target, window.wizardsOptions.fireballColors, window.styleUtils.setBackgroundColor);
+      if (typeof callback !== 'undefined' && callback !== null) {
+        callback();
+      }
+    };
   }
 })();
